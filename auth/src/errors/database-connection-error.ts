@@ -1,14 +1,18 @@
-import { ValidationError } from 'express-validator';
+import { CustomError } from './custom-error';
 
-class DatabaseConnectionError extends Error {
-
+export class DatabaseConnectionError extends CustomError {
+  statusCode = 500;
   reason = 'Error al conectarse a la base de datos!';
 
   constructor() {
-    super();
+    super('Error conecting to database');
+
     Object.setPrototypeOf(this, DatabaseConnectionError.prototype);
   }
 
+  serializeErrors(){
+    return [
+      { message: this.reason }
+    ];
+  }
 }
-
-export { DatabaseConnectionError }
