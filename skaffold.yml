@@ -1,21 +1,18 @@
 apiVersion: skaffold/v2alpha3
-kind: Config 
-build: 
-  local:
-    push: false
-  # googleCloudBuild:
-  #   projectId: cu-dev
-  artifacts: 
-    - image: mariohdoz/auth
-    # - image: us.gcr.io/cu-dev/auth
-      context: auth 
-      docker: 
-        dockerfile: Dockerfile 
-      sync: 
-        manual: 
-          - src: 'src/**/*.ts'
-            dest: .
-deploy: 
+kind: Config
+deploy:
   kubectl:
     manifests:
       - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: mariohdoz/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
