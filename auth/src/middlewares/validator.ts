@@ -5,7 +5,8 @@ import { RequestValidationError } from '../errors/request-validation-error'
 const userValidationResult = () => {
   return [
     body('email').isEmail().withMessage('Email must be valid'),
-    body('password').isLength({min: 4, max: 20}).withMessage('Password must be between 4 and 20 characters')
+    body('password').isLength({min: 4, max: 20}).withMessage('Password must be between 4 and 20 characters'),
+    body('name').isLength({min: 1, max: 25}).withMessage('Name must be provided')
   ]
 }; 
 
