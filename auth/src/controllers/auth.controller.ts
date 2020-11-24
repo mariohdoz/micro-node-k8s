@@ -1,25 +1,46 @@
 import { Request, Response } from 'express';
-import { DatabaseConnectionError } from '../errors/database-connection-error'; 
+import { User } from "../models/index.models";
 
-export function getCurrentUser(req: Request, res: Response) {
+const getCurrentUser = (req: Request, res: Response) => {
   res.send('hi there!');
 }
 
-export function postsignIn(req: Request, res: Response) {
+const postsignIn = (req: Request, res: Response) => {
   res.send('hi there!!');
 }
 
-export function postsignOut(req: Request, res: Response) {
+const postsignOut = (req: Request, res: Response) => {
   res.send('hi there!!!');
 }
 
-export function postsignUp(req: Request, res: Response) {
+ const postsignUp = async(req: Request, res: Response) => {
   
-  const {email, password} = req.body;
+  const {email, password, name} = req.body;
 
-  console.log('Error conectando la base de datos');
-  throw new DatabaseConnectionError();
-  
-  res.send('hi there!!!!');
-  
+  const existingUser = await User.findOne({email});
+
+  if(existingUser){
+    console.log(`Email ${email} ya se encuentra registrado`);
+    return res.status(403).send({});    
+  }
+
+  const user = User.build({
+    email, 
+    password,
+    name
+  });
+
+  await user.save();
+
+  res.status(201).send({
+    message: 'Usuario creado existosamente',
+    user
+  })
+}
+
+export {
+  getCurrentUser,
+  postsignIn,
+  postsignOut,
+  postsignUp
 }
