@@ -1,29 +1,33 @@
-console.log("Iniciando");
-import express = require('express');
-console.log('Se importa express');
-
+import express from 'express';
+import mongoose from "mongoose";
 import * as bodyParser from 'body-parser';
-console.log('Se importa Body parser');
+
 import { routes } from '../routes/index.routes';
 import { errorHandler } from '../middlewares/error-handler';
-console.log('Se importa rutas');
 
 const PORT = 3000;
-console.log("Creando instancia");
 const app = express();
 
-// parse application/x-www-form-urlencoded
-console.log("Se habilita body parser")
 app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
 app.use(bodyParser.json());
 
-console.log("Se habilitan rutas")
 app.use(routes);
-
-console.log('Se habilita manejo de errores');
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Escuchando en puerto ${PORT}!!!`);
-});
+const start = async () => {
+
+  try {
+    await mongoose.connect('mongodb://auth-mongo-srv:27017/auth', {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
+
+    console.log('Base de datos conectada')
+  } catch (err) {
+    console.log(err)
+  }
+
+  app.listen(PORT, () => {
+    console.log(`Escuchando en puerto ${PORT}!!`);
+  });
+
+}
+
+start();
