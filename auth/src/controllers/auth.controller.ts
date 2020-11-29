@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from "../models/index.models";
+import { BadRequestError } from "../errors/index.errors";
 
 const getCurrentUser = (req: Request, res: Response) => {
   res.send('hi there!');
@@ -13,15 +14,14 @@ const postsignOut = (req: Request, res: Response) => {
   res.send('hi there!!!');
 }
 
- const postsignUp = async(req: Request, res: Response) => {
+const postsignUp = async(req: Request, res: Response) => {
   
   const {email, password, name} = req.body;
 
   const existingUser = await User.findOne({email});
 
   if(existingUser){
-    console.log(`Email ${email} ya se encuentra registrado`);
-    return res.status(403).send({});    
+    throw new BadRequestError("El correo ya se encuentra registrado");
   }
 
   const user = User.build({
