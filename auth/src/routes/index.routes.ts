@@ -12,8 +12,7 @@ app.use(currentUserRouter);
 // Ruta para login
 app.use(signRouter);
 
-app.all('*', async(req, res, next) => {
-  // next (new NotFoundError());
+app.all('*', async(req, res) => {
   throw new NotFoundError();
 }); 
  

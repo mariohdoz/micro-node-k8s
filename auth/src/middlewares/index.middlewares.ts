@@ -1,8 +1,9 @@
-import { userValidationResult, validate } from './validator';
+import { CreateUserValidationResult, LoginUserValidationResult, validate } from './validator';
 import { errorHandler } from './error-handler';
 
 export {
-  userValidationResult,
+  CreateUserValidationResult,
+  LoginUserValidationResult,
   validate,
   errorHandler
 }
