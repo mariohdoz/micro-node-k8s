@@ -1,7 +1,7 @@
 import { app } from "./server";
 import mongoose from "mongoose";
 import * as bodyParser from 'body-parser';
-// import cookieSession from "cookie-session";
+import cookieSession from "cookie-session";
 import config from "../config/index";
 
 import { routes } from '../routes/index.routes';
@@ -11,12 +11,12 @@ app.set('trust proxy', true);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use(
-//   cookieSession({
-//     signed: false,
-//     secure: true
-//   }
-// ));
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true
+  }
+));
 
 app.use(routes);
 app.use(errorHandler);
