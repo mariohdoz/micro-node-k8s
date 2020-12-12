@@ -10,18 +10,4 @@ const generateToken = (data: {email: string, id: string}) => {
   return jwt.sign(data, config.JWT_KEY);
 }  
 
-/**
- * 
- * @param token token from user
- * @param key JWT key
- * @return payload
- */
-const verify = (token: string, key: string) => {
-  try {
-    return jwt.verify(token, key);
-  } catch (error) {
-    return null;
-  }
-}
-
-export { generateToken, verify }
+export { generateToken }
