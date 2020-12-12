@@ -2,11 +2,8 @@ import { Request, Response } from 'express';
 import { User } from "../models/index.models";
 import { BadRequestError } from "../errors/index.errors";
 import { generateToken } from "../helpers/jwt.helpers";
-import { Password } from '../services/password.services'
+import { Password } from '../services/password.services';
 
-const getCurrentUser = (req: Request, res: Response) => {
-  res.send('hi there!');
-}
 
 const postsignIn = async (req: Request, res: Response) => {
 
@@ -38,7 +35,11 @@ const postsignIn = async (req: Request, res: Response) => {
 }
 
 const postsignOut = (req: Request, res: Response) => {
-  res.send('hi there!!!');
+  req.session = null; 
+
+  res.status(200).send({
+    message: "Logout correcto"
+  });
 }
 
 const postsignUp = async(req: Request, res: Response) => {
@@ -72,7 +73,6 @@ const postsignUp = async(req: Request, res: Response) => {
 }
 
 export {
-  getCurrentUser,
   postsignIn,
   postsignOut,
   postsignUp
