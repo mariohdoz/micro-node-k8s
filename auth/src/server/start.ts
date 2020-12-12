@@ -5,7 +5,7 @@ import cookieSession from "cookie-session";
 import config from "../config/index";
 
 import { routes } from '../routes/index.routes';
-import { errorHandler } from '../middlewares/error-handler';
+import { errorHandler } from '../middlewares/error-handler.middlewares';
 
 app.set('trust proxy', true);
 
