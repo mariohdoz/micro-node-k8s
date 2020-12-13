@@ -1,5 +1,4 @@
 import * as jwt from 'jsonwebtoken';
-import config from "../config/index";
 
 /**
  * Generate token
@@ -7,7 +6,7 @@ import config from "../config/index";
  * @return user token
  */
 const generateToken = (data: {email: string, id: string}) => {
-  return jwt.sign(data, config.JWT_KEY);
+  return jwt.sign(data, process.env.JWT_KEY!);
 }  
 
 export { generateToken }
