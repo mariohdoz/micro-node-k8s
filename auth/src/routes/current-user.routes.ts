@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { userController } from "../controllers/index.controllers";
-import { currentUser } from "../middlewares/index.middlewares";
+import { currentUser } from "@hdozdev/common";
 
 const router = Router();
 

@@ -5,7 +5,7 @@ import * as bodyParser from 'body-parser';
 import cookieSession from "cookie-session";
 
 import { routes } from '../routes/index.routes';
-import { errorHandler } from '../middlewares/error-handler.middlewares';
+import { errorHandler } from '@hdozdev/common';
 
 app.set('trust proxy', true);
 

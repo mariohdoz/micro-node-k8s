@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from "../models/index.models";
-import { BadRequestError } from "../errors/index.errors";
+import { BadRequestError } from "@hdozdev/common";
 import { generateToken } from "../helpers/jwt.helpers";
 import { Password } from '../services/password.services';
 

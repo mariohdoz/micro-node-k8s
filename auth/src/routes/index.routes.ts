@@ -2,7 +2,7 @@ import express = require('express');
 import 'express-async-errors';
 import { currentUserRouter } from './current-user.routes';
 import { signRouter } from './sign.routes';
-import { NotFoundError } from "../errors/index.errors";
+import { NotFoundError } from "@hdozdev/common";
 
 const app = express();
 
