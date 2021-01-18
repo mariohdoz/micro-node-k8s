@@ -4,7 +4,7 @@ const app = express();
 import * as bodyParser from 'body-parser';
 import cookieSession from "cookie-session";
 
-// import { routes } from '../routes/index.routes';
+import { routes } from '../routes/index.routes';
 import { errorHandler } from '@hdozdev/common';
 
 app.set('trust proxy', true);
@@ -18,7 +18,7 @@ app.use(
   }
 ));
 
-// app.use(routes);
+app.use(routes);
 app.use(errorHandler);
 
 export { app };
