@@ -38,7 +38,15 @@ const showTicket = async (req: Request, res: Response): Promise<void> => {
 
 }
 
+const listTickets = async (req: Request, res: Response): Promise<void> => {
+  const tickets = await Ticket.find({});
+  
+  res.status(200)
+    .send(tickets)
+}
+
 export {
   createTicket,
-  showTicket
+  showTicket,
+  listTickets
 }
