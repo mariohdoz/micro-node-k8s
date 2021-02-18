@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { Ticket } from "../models/index.models";
 
-const createTicket = async (req: Request, res: Response) => {
+import { NotFoundError } from "@hdozdev/common";
+
+const createTicket = async (req: Request, res: Response): Promise<void> => {
   
   const {title, price} = req.body;
   
@@ -19,4 +21,24 @@ const createTicket = async (req: Request, res: Response) => {
     });
 }
 
-export {createTicket}
+const showTicket = async (req: Request, res: Response): Promise<void> => {
+  
+  const ticker_id = req.params.id;
+
+  const ticket = await Ticket.findById(ticker_id);
+
+  if(!ticket){
+    throw new NotFoundError();
+  }
+
+  res.status(200)
+    .send(
+      ticket
+    );
+
+}
+
+export {
+  createTicket,
+  showTicket
+}
