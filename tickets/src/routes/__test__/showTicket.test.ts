@@ -4,7 +4,7 @@ import { app } from "../../server/server";
 it('should return a 404 if ticket is not found', async () => {
   
   const response = await request(app)
-    .get('/api/ticket/99999')
+    .get('/api/ticket/asdasd')
     .set('Cookie', global.signin());
 
   expect(response.status).toEqual(404);
@@ -26,12 +26,13 @@ it('should return the ticket if the ticket is found', async () => {
     .expect(201);
 
   const response = await request(app)
-    .get(`/api/ticket/${ticket.body.id}`)
-    .set('Cookie', global.signin());
+    .get(`/api/tickets/${ticket.body.ticket.id}`)
+    .set('Cookie', global.signin())
+    .send();
 
   expect(response.status).toEqual(200);
   expect(response.body.title).toBe(title);
   expect(response.body.price).toBe(price);
-  expect(response.body.id).toBe(ticket.body.id);
+  expect(response.body.id).toBe(ticket.body.ticket.id);
 
 });
