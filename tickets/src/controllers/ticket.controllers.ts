@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { Ticket } from "../models/index.models";
-
-import { NotFoundError } from "@hdozdev/common";
+import { NotAuthorizedError, NotFoundError } from "@hdozdev/common";
 
 const createTicket = async (req: Request, res: Response): Promise<void> => {
   
@@ -45,8 +44,32 @@ const listTickets = async (req: Request, res: Response): Promise<void> => {
     .send(tickets)
 }
 
+const updateTicket = async (req: Request, res: Response) => {
+
+  const {title, price} = req.body;  
+  const ticket = await Ticket.findById(req.params.id);
+
+  if(!ticket){
+    throw new NotFoundError();
+  }
+
+  if(ticket.userId !== req.currentUser!.id){
+    throw new NotAuthorizedError();
+  }
+
+  ticket.set({
+    title,
+    price
+  });
+
+  await ticket.save();
+
+  res.send(ticket);
+}
+
 export {
   createTicket,
   showTicket,
-  listTickets
+  listTickets,
+  updateTicket
 }
