@@ -7,7 +7,7 @@ const router = Router();
 
 router.post('/api/tickets', requiereAuth, [
   body('title').not().isEmpty().withMessage('Title is required'),
-  body('price').not().isEmpty(). isFloat({ gt: 0 }).withMessage('Title is required'),
+  body('price').not().isEmpty(). isFloat({ gt: 0 }).withMessage('Price must be provided and must be greater than 0'),
 ], Validate.validateRequest, ticketController.createTicket);
 
 export {router as newRouter};
