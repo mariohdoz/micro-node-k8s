@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { Ticket } from "../models/index.models";
 import { NotAuthorizedError, NotFoundError } from "@hdozdev/common";
+import { TicketCreatedPublisher, TicketUpdatedPublisher } from "../events/index.events";
+import { natsWrapper } from "../server/nats-wrapper";
 
 const createTicket = async (req: Request, res: Response): Promise<void> => {
   
@@ -13,6 +15,13 @@ const createTicket = async (req: Request, res: Response): Promise<void> => {
   });
 
   await ticket.save();
+
+  new TicketCreatedPublisher(natsWrapper.client).publish({
+    id: ticket.id,
+    title: ticket.title,
+    price: ticket.price,
+    userId: ticket.userId  
+  });
   
   res.status(201)
     .send({
@@ -63,6 +72,13 @@ const updateTicket = async (req: Request, res: Response) => {
   });
 
   await ticket.save();
+
+  new TicketUpdatedPublisher(natsWrapper.client).publish({
+    id: ticket.id,
+    title: ticket.title,
+    price: ticket.price,
+    userId: ticket.userId
+  });
 
   res.send(ticket);
 }
