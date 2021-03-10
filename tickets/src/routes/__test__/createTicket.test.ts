@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../../server/server";
-import { Ticket } from "../../models/index.models"
+import { Ticket } from "../../models/index.models";
+import { natsWrapper } from "../../server/nats-wrapper";
 
 it('should has a route handler listening to /api/tickets for post requests', async() => {
   const response = await request(app)
@@ -90,4 +91,22 @@ it('should create a ticket with valid inputs', async () => {
   expect(tickets[0].price).toEqual(price);
   expect(response.status).toEqual(201);
 
+});
+
+it('should publish an event', async () => {
+  
+  const title: string = "Titulo";
+  const price: number = 20;
+  
+  await request(app)
+    .post('/api/tickets')
+    .set('Cookie', global.signin())
+    .send({
+      title,
+      price
+    })
+    .expect(201);
+
+  
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
