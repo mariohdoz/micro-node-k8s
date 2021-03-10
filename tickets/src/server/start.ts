@@ -5,22 +5,17 @@ import { natsWrapper } from "./nats-wrapper";
 
 const start = async () => {
 
-  if(!config.JWT_KEY){
-    throw new Error('JWT_KEY debe estar definida');
-  }
-
-  if(!config.MONGO_URI){
-    throw new Error('MONGO_URI debe estar definida');
-  } 
-
   try {
-    await natsWrapper.connect('ticketing', 'asdasd', 'http://nats-srv:4222');
+    await natsWrapper.connect(config.NATS_CLUSTER_ID, config.NATS_CLIENT_ID, config.NATS_URL);
     natsWrapper.client.on('close', () => {
       console.log('NATS connection closed!');
       process.exit();
     });
     process.on('SIGINT', () => natsWrapper.client.close());
     process.on('SIGTERM', () => natsWrapper.client.close());
+
+    console.log("NATS conectado");
+
   } catch (err) {
     console.log(err);
   }
